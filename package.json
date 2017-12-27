@@ -1,0 +1,29 @@
+{
+  "name": "kui-runtime",
+  "version": "0.1.0",
+  "description": "Kui runtime for pixi.js",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/k8w/kui-runtime.git"
+  },
+  "keywords": [
+    "KUI",
+    "pixi",
+    "pixi.js",
+    "UI",
+    "GUI",
+    "WebGL"
+  ],
+  "author": "k8w",
+  "license": "Apache-2.0",
+  "typings": "index.d.ts",
+  "dependencies": {
+    "@types/pixi.js": "^4.6.1",
+    "pixi.js": "^4.6.2",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0"
+  }
+}
