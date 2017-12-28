@@ -4,6 +4,9 @@ import { TransformProps } from '../src/KuiComponent';
 import KuiPrefab from '../src/KuiPrefab';
 import KUI from '../index';
 
+//设置这个 才能在Chrome里用devTool调试
+(window as any).PIXI = PIXI;
+
 let app = new PIXI.Application({
     width: 720,
     height: 480,
@@ -33,25 +36,49 @@ interface CProps extends TransformProps {
 }
 
 class CustomCross extends KuiComponent<CProps> {
-    graphics: PIXI.Graphics = undefined as any;
+    graphics: PIXI.Graphics;
 
     protected init() {
+        this.interactive = this.interactiveChildren = true;
         this.graphics = new PIXI.Graphics();
+        this.graphics.interactive = true;
         this.addChild(this.graphics);
+
+        this.on('mouseover', () => {
+            this.props.color = 0xff0f00;
+            this.applyProps();
+        })
+
+        this.on('mouseout', () => {
+            this.props.color = 0x0000ff;
+            this.applyProps();
+        })
     }
 
     applyProps() {
-        console.log('here')
         super.applyProps();
 
         if (this.graphics) {
             this.graphics.clear();
-            console.log('up', this.props.color)
+            
+            this.graphics.beginFill(0, 0.1);
+            this.graphics.drawRect(-25, -25, 50, 50);
+            this.graphics.endFill();
+
+            this.graphics.beginFill(0xff0000, 0.1);
+            let bounds = this.getLocalBounds();
+            this.graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+            this.graphics.endFill();
+
             this.graphics.lineStyle(5, this.props.color, 1);
             this.graphics.moveTo(-25, 0);
             this.graphics.lineTo(25, 0);
             this.graphics.moveTo(0, -25);
             this.graphics.lineTo(0, 25);
+
+            if (!this.hitArea) {
+                this.hitArea = this.getLocalBounds();
+            }
         }
     }
 }
@@ -83,7 +110,7 @@ class TestPrefab extends KuiPrefab {
             props: {
                 x: 100,
                 y: 100,
-                rotation: 15
+                rotation: 0
             }
         },
         {
@@ -95,14 +122,35 @@ class TestPrefab extends KuiPrefab {
             }
         },
         {
-            compId: 'Cross',
+            compId: 'CustomCross',
             props: {
                 x: 300,
                 y: 300,
-                rotation: 45
+                rotation: -30,
+                color: 0x00ff00
             }
         }
     ]
 }
 
-app.stage.addChild(new TestPrefab({}))
+let pb = new TestPrefab({
+    x: 300, y: -50
+});
+pb.interactive = pb.interactiveChildren = true;
+app.stage.addChild(pb);
+
+pb.on('click', () => {
+    console.log('pb')
+});
+
+// app.stage.interactive = true;
+// console.log(app.view.width, app.view.height)
+// app.stage.hitArea = new PIXI.Rectangle(0, 0, app.view.width, app.view.height);
+// app.stage.on('click', () => {
+//     console.log('STAGE CLICKED');
+// })
+
+(window as any).app = app;
+app.renderer.plugins.interaction.on('click', () => {
+    console.log('RClick')
+});

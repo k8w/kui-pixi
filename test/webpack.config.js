@@ -19,10 +19,7 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({ async: true, minChunks: 2 }),
-        new webpack.ProvidePlugin({
-            'PIXI': 'pixi.js'
-        })
+        new webpack.optimize.CommonsChunkPlugin({ async: true, minChunks: 2 })
     ],
     devServer: {
         contentBase: __dirname,

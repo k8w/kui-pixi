@@ -1,12 +1,12 @@
 {
-  "name": "kui-runtime",
+  "name": "kui-pixi",
   "version": "0.1.0",
   "description": "Kui runtime for pixi.js",
   "main": "index.js",
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/k8w/kui-runtime.git"
+    "url": "https://github.com/k8w/kui-pixi.git"
   },
   "keywords": [
     "KUI",
@@ -21,9 +21,6 @@
   "typings": "index.d.ts",
   "dependencies": {
     "@types/pixi.js": "^4.6.1",
-    "pixi.js": "^4.6.2",
-    "ts-loader": "^3.2.0",
-    "typescript": "^2.6.2",
-    "webpack": "^3.10.0"
+    "pixi.js": "^4.6.2"
   }
 }
